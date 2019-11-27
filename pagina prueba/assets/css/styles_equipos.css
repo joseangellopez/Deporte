@@ -1,0 +1,28 @@
+
+
+table {
+  text-align: center;
+}
+
+tbody {
+  width: 10px;
+  height: 10px;
+}
+
+td {
+  width: 10px;
+}
+
+th {
+  width: 10px;
+}
+
+#menu_lateral li{
+  list-style: none;
+  text-align: left;
+  display: block;
+  margin-left: 40px;
+}
+#imagen {
+  margin-left:0px;
+}

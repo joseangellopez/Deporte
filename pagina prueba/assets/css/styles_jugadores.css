@@ -1,0 +1,26 @@
+#menu_lateral li {
+  list-style: none;
+  color: red;
+  text-align: left;
+  display: block;
+  margin-left: 40px;
+}
+
+dl, ol, ul {
+  padding: 0px;
+}
+
+td, th {
+  width: 100px;
+  height: 1px;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+#foto{
+  text-align: center;
+}
+table tr:first-child td:first-child, tr:first-child th:first-child{
+ padding-left: 150px;
+}
+

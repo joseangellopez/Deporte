@@ -1,0 +1,9 @@
+img {
+  height: 50px;
+  width: 32px;
+}
+
+dl, ol, ul, li {
+  display: inline;
+}
+

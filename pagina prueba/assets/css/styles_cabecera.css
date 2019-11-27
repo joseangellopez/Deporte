@@ -1,0 +1,16 @@
+.navbar-light .navbar-brand {
+  margin-left: 20px;
+}
+
+header {
+  margin-top: 20px;
+  margin-left: 20px;
+  text-align: center;
+  margin-right: 20px;
+}
+
+.navbar.navbar-light.navbar-expand-md {
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
