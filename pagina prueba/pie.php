@@ -35,8 +35,9 @@
                             <li></li>
                             <li></li>
                         </ul>
-                        <p>Adrián Ruiz&nbsp;</p>
-                        <p>José Ángel López</p>
+                        <p><a href="https://github.com/adrianruizmartinez"> Adrián Ruiz</a></p>
+                        <p><a href="https://github.com/joseangellopez">José Ángel López</a></p>
+
                     </div>
                 </div>
                 <p class="copyright">Company of Pisé © 2020</p>
