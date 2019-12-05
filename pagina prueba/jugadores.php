@@ -41,66 +41,47 @@ $url = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 foreach ($db->query($consulta_equipos) as $fila) {
     $idequipo = $fila['idequipo'];
     $nombre_eq = $fila['nombre_eq'];
-    $lista .= "<li value=\"" . $idequipo . "\"><a href=?equipo=" . $idequipo . ">" . $nombre_eq . "</a></li>";
+    $lista .= "<li value=\"" . $idequipo . "\"><a href=?equipo=" . $idequipo . "&>" . $nombre_eq . "</a></li>";
 }
 //_-----------------------------------------------------------------------_\\
+
+
 if (isset($_GET['equipo'])) {
     $jugadores = "";
     $equipo = (int)$_GET['equipo'];
-    $consulta_jugadores = "SELECT idjugador, alias_jug , equipos_jug from jugador where equipos_jug=" . $equipo;
+    $consulta_jugadores = "SELECT idjugador, alias_jug from jugador,jugador_equipo_temporada  where idequipo_jet=" . $equipo . " and Jugador_idjugador=idjugador";
     foreach ($db->query($consulta_jugadores) as $fila) {
         $idjugador = $fila['idjugador'];
         $alias_jug = $fila['alias_jug'];
-        $equipos_jug=$fila['equipos_jug'];
-        $jugadores .= "<option value=\"" . $idjugador."\">". $alias_jug . "</option>";
+        $jugadores .= "<option value=\"" . $idjugador . "\">" . $alias_jug . "</option>";
     }
 }
 
 
 //_-------------------------------------------------------------_\\
-if (isset($_GET['jugador_select'])) {
+@$jugador_actual = $_GET['jugador_select'];
+if (isset($jugador_actual)) {
     $info_jug = "";
     $jugador = (int)$_GET['jugador_select'];
-    $consulta_infojug = "SELECT * from jugador where idjugador=" . $jugador;
-    foreach ($db->query($consulta_infojug) as $fila) {
-        $idposicion_jug = $fila['idposicion_jug'];
-        $idjugador = $fila['idjugador'];
+    $consulta = "SELECT nombre_jug, apellido_jug, alias_jug, fechanac_jug, nacionalidad_jug, numero_jug_jet, nombre_eq, nombre_pos, Nombre_lig
+    from jugador , jugador_equipo_temporada, equipo, posicion, temporada_equipo, division, liga  
+    where Jugador_idjugador=" . $jugador . " and idjugador = " . $jugador . " and idequipo_jet= idequipo
+    and idposicion_jet = idposicion and idequipo_temeq = idequipo and division_temeq = iddivision and liga_idliga = idliga";
+    foreach ($db->query($consulta) as $fila) {
         $nombre_jug = $fila['nombre_jug'];
         $apellido_jug = $fila['apellido_jug'];
-        $alias_jug = $fila['alias_jug'];
+        $alias_jug_lista = $fila['alias_jug'];
         $fechanac_jug = $fila['fechanac_jug'];
         $nacionalidad_jug = $fila['nacionalidad_jug'];
-        $numero_jug = $fila['numero_jug'];
-        $equipos_jug = $fila['equipos_jug'];
+        $numero_jug = $fila['numero_jug_jet'];
+        $equipo_jug = $fila['nombre_eq'];
+        $idposicion_jug = $fila['nombre_pos'];
+        $liga_jug = $fila['Nombre_lig'];
+
     }
-} else {
-    $idposicion_jug = "";
-    $idjugador = "";
-    $nombre_jug = "";
-    $apellido_jug = "";
-    $alias_jug = "";
-    $fechanac_jug = "";
-    $nacionalidad_jug = "";
-    $numero_jug = "";
-    $equipos_jug = "";
-    $liga_jug = "";
 }
 
-//_-------------------------------------------------------------_\\
-if ($equipos_jug != "") {
-    $equipo = "";
-    $consulta_equipo_jug = "SELECT idequipo, nombre_eq, liga_eq from equipo where idequipo=" . $equipos_jug;
-    foreach ($db->query($consulta_equipo_jug) as $fila) {
-        $equipos_jug = $fila['nombre_eq'];
-        $liga_jug = $fila['liga_eq'];
-    }
-}
-if ($idposicion_jug!=""){
-    $consulta_posicion_jug = "SELECT idposicion, nombre_pos from posicion where idposicion=".$idposicion_jug;
-    foreach ($db->query($consulta_posicion_jug) as $fila) {
-        $idposicion_jug = $fila['nombre_pos'];
-    }
-}
+
 ?>
 <div>
     <div class="container">
@@ -124,17 +105,17 @@ if ($idposicion_jug!=""){
                     <table class="table">
                         <img class="img_jug" src="assets/img/descarga.png"/>
                         <p>Posición:</p>
-                        <p><?php echo $idposicion_jug ?></p>
+                        <p><?php echo @$idposicion_jug ?></p>
                         <thead>
                         <tr>
                             <th>Nombre</th>
                             <th class="col-md-8">Apellido</th>
                         </tr>
                         </thead>
-                        <tbody>
+
                         <tr>
-                            <td><?php echo $nombre_jug ?></td>
-                            <td><?php echo $apellido_jug ?></td>
+                            <td><?php echo @$nombre_jug ?></td>
+                            <td><?php echo @$apellido_jug ?></td>
                         </tr>
                         <thead>
                         <tr>
@@ -143,8 +124,8 @@ if ($idposicion_jug!=""){
                         </tr>
                         </thead>
                         <tr>
-                            <td><?php echo $alias_jug ?></td>
-                            <td><?php echo $equipos_jug ?></td>
+                            <td><?php echo @$alias_jug_lista ?></td>
+                            <td><?php echo @$equipo_jug ?></td>
                         </tr>
                         <thead>
                         <tr>
@@ -153,8 +134,8 @@ if ($idposicion_jug!=""){
                         </tr>
                         </thead>
                         <tr>
-                            <td><?php echo $nacionalidad_jug ?></td>
-                            <td><?php echo $numero_jug ?></td>
+                            <td><?php echo @$nacionalidad_jug ?></td>
+                            <td><?php echo @$numero_jug ?></td>
                         </tr>
                         <thead>
                         <tr>
@@ -163,11 +144,11 @@ if ($idposicion_jug!=""){
                         </tr>
                         </thead>
                         <tr>
-                            <td><?php echo $fechanac_jug ?></td>
-                            <td><?php echo $liga_jug ?></td>
+                            <td><?php echo @$fechanac_jug ?></td>
+                            <td><?php echo @$liga_jug ?></td>
                         </tr>
 
-                        </tbody>
+
                     </table>
                 </div>
 

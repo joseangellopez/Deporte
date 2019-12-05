@@ -30,26 +30,22 @@
 
 function listar($db, $tipo)
 {
-    $prueba = "";
+    $lista = "";
     // SELECT idjugador_inc1, count(idtincidencia_inc) as cantidad_inc from incidencia where idtincidencia_inc = 1 GROUP BY idtincidencia_inc order by idjugador_inc1;
-    $consulta_inc = "SELECT idjugador_inc1, count(idtincidencia_inc) as cantidad_inc from incidencia where idtincidencia_inc = " . $tipo . " GROUP BY idtincidencia_inc order by idjugador_inc1;";
+    $consulta_inc = "SELECT idjugador1_inc, count(idtincidencia_inc) as cantidad_inc from incidencia where idtincidencia_inc = " . $tipo . " GROUP BY idtincidencia_inc order by idjugador1_inc;";
     foreach ($db->query($consulta_inc) as $fila) {
-        $jugador = $fila['idjugador_inc1'];
+        $jugador = $fila['idjugador1_inc'];
         $cantidad_inc = $fila['cantidad_inc'];
 
-        $consulta_jug = "SELECT idjugador, alias_jug, equipos_jug FROM jugador where idjugador = " . $jugador . ";";
+        $consulta_jug = "SELECT idjugador, alias_jug, nombre_eq FROM jugador, jugador_equipo_temporada, equipo where idjugador = " . $jugador . " and Jugador_idjugador = idjugador and idequipo_jet = idequipo;";
         foreach ($db->query($consulta_jug) as $fila) {
             $jugador = $fila['alias_jug'];
-            $equipo = $fila['equipos_jug'];
-        }
-        $consulta_equ = "SELECT idequipo, nombre_eq FROM equipo where idequipo = " . $equipo . ";";
-        foreach ($db->query($consulta_equ) as $fila) {
             $equipo = $fila['nombre_eq'];
         }
-        $prueba .= "<tr><td>" . $jugador . "</td><td>" . $equipo . "</td><td>" . $cantidad_inc . "</td></tr>";
+        $lista .= "<tr><td>" . $jugador . "</td><td>" . $equipo . "</td><td>" . $cantidad_inc . "</td></tr>";
     }
 
-    return $prueba;
+    return $lista;
 }
 
 ?>
@@ -60,24 +56,14 @@ function listar($db, $tipo)
             <tr>
                 <th>Nombre</th>
                 <th>Equipo</th>
-                <th>&nbsp; &nbsp; Goles &nbsp; &nbsp;&nbsp;</th>
+                <th>Goles</th>
             </tr>
             </thead>
             <tbody>
-            <?php // echo listar($db, 1); ?>
-            <tr>
-                <td>Jose Ángel</td>
-                <td>Mogón C.F</td>
-                <td>-3</td>
-            </tr>
-            <tr></tr>
+            <?php  echo listar($db, 1); ?>
             </tbody>
-        </table>
-    </div>
-</div>
-<div id="asistencias">
-    <div class="table-responsive">
-        <table class="table">
+
+
             <thead class="tcabecera">
             <tr>
                 <th>Nombre</th>
@@ -86,37 +72,34 @@ function listar($db, $tipo)
             </tr>
             </thead>
             <tbody>
-            <?php // echo listar($db, 1); ?>
-            <tr>
-                <td>Jose Ángel</td>
-                <td>Mogón C.F</td>
-                <td>-3</td>
-            </tr>
-            <tr></tr>
+            <?php  echo listar($db, 2); ?>
             </tbody>
-        </table>
-    </div>
-</div>
-<div id="tarjetas">
-    <div class="table-responsive">
-        <table class="table">
+
+
             <thead class="tcabecera">
             <tr>
                 <th>Nombre</th>
                 <th>Equipo</th>
-                <th>&nbsp; Tarjetas &nbsp;&nbsp;</th>
+                <th>Tarjeta Amarilla</th>
             </tr>
             </thead>
             <tbody>
-            <?php echo listar($db, 1); ?>
-            <tr></tr>
+            <?php echo listar($db, 4); ?>
             </tbody>
-        </table>
-    </div>
-</div>
-<div id="expulsiones">
-    <div class="table-responsive">
-        <table class="table">
+
+
+            <thead class="tcabecera">
+            <tr>
+                <th>Nombre</th>
+                <th>Equipo</th>
+                <th>Tarjeta Roja</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php echo listar($db, 3); ?>
+            </tbody>
+
+
             <thead class="tcabecera">
             <tr>
                 <th>Nombre</th>
@@ -125,20 +108,10 @@ function listar($db, $tipo)
             </tr>
             </thead>
             <tbody>
-            <?php // echo listar($db, 1); ?>
-            <tr>
-                <td>Jose Ángel</td>
-                <td>Mogón C.F</td>
-                <td>-3</td>
-            </tr>
-            <tr></tr>
+            <?php  echo listar($db, 1); ?>
             </tbody>
-        </table>
-    </div>
-</div>
-<div id="exclusiones">
-    <div class="table-responsive">
-        <table class="table">
+
+
             <thead class="tcabecera">
             <tr>
                 <th>Nombre</th>
@@ -147,17 +120,12 @@ function listar($db, $tipo)
             </tr>
             </thead>
             <tbody>
-            <?php // echo listar($db, 1); ?>
-            <tr>
-                <td>Jose Ángel</td>
-                <td>Mogón C.F</td>
-                <td>-3</td>
-            </tr>
-            <tr></tr>
+            <?php  echo listar($db, 1); ?>
             </tbody>
         </table>
     </div>
 </div>
+
 <?php include 'pie.php'; ?>
 
 </body>

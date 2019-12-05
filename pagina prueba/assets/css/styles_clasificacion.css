@@ -1,5 +1,9 @@
 .escudo {
   height: 50px;
   width: 32px;
+  float:right;;
+}
+table{
+  text-align: center;
 }
 

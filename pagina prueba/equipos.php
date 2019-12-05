@@ -24,6 +24,7 @@
 <?php include 'cabecera.php'; ?>
 <?php include 'conexionproyecto.php'; ?>
 <?php
+
 $lista = "";
 $consulta_equipos = "SELECT idequipo, nombre_eq from equipo;";
 foreach ($db->query($consulta_equipos) as $fila) {
@@ -32,45 +33,63 @@ foreach ($db->query($consulta_equipos) as $fila) {
     $lista .= "<li value=\"" . $idequipo . "\"><a href=?equipo=" . $idequipo . ">" . $nombre_eq . "</a></li>";
 }
 //--------------------------------------------------------------------------
-
 if (isset($_GET['equipo'])) {
-    $jugadores = "";
+    $temporada = "";
     $equipo = (int)$_GET['equipo'];
-    $consulta_infoEquipo = "SELECT * from equipo where idequipo=" . $equipo;
-    foreach ($db->query($consulta_infoEquipo) as $fila) {
-        $nombre_eq = $fila['nombre_eq'];
-        $liga_eq = $fila['liga_eq'];
-        $idestadio_eq = $fila['idestadio_eq'];
-        $division_eq = $fila['division_eq'];
-        $ciudad_eq = $fila['ciudad_eq'];
-        $identrenado_eq = $fila['identrenador_eq'];
-        $provincia_eq = $fila['provincia_eq'];
-        $presidente_eq = $fila['presidente_eq'];
+    $consulta_jugadores = "SELECT idtemporada_temeq,ano_principio,ano_fin from temporada_equipo,temporada where idtemporada=idtemporada_temeq AND  idequipo_temeq=" . $equipo;
+    foreach ($db->query($consulta_jugadores) as $fila) {
+        $idtemporada_temeq = $fila['idtemporada_temeq'];
+        $ano_principio = $fila['ano_principio'];
+        $ano_fin = $fila['ano_fin'];
+        $temporada .= "<option value=\"" . $idtemporada_temeq."\">". $ano_principio . "-" . $ano_fin  . "</option>";
+    }
+}
+
+if (isset($_GET['temporada_select'])) {
+    $jugadores = "";
+    $equipo = (int)$_GET['temporada_select'];
+    if ($equipo  == 0){
+            $nombre_eq_l =  "";
+            $nombre_lig = "";
+            $idestadio_temeq = "";
+            $nombre_div = "";
+            $ciudad_eq = "";
+            $identrenador_temeq = "";
+            $provincia_eq = "";
+            $presidente_temeq = "";
+            $idestadio_nombre = "";
+            $identrenador_nombre = "";
+
+
+    }else {
+        $consulta_infoEquipo = "SELECT * from equipo,temporada_equipo,division,liga,estadio,entrenadores where idestadio_temeq = idestadio AND identrenador_temeq = identrenador AND idequipo = idequipo_temeq AND division_temeq = iddivision AND liga_idliga = idliga  AND  idequipo=" . $equipo;
+        foreach ($db->query($consulta_infoEquipo) as $fila) {
+            $nombre_eq_l = $fila['nombre_eq'];
+            $nombre_lig = $fila['nombre_lig'];
+            $idestadio_temeq = $fila['idestadio_temeq'];
+            $nombre_div = $fila['nombre_div'];
+            $ciudad_eq = $fila['ciudad_eq'];
+            $identrenador_temeq = $fila['identrenador_temeq'];
+            $provincia_eq = $fila['ciudad_eq'];
+            $presidente_temeq = $fila['presidente_temeq'];
+            $idestadio_nombre = $fila['nombre_estadio'];
+            $identrenador_nombre = $fila['nombre_ent'] . " " . $fila['apellidos_ent'];
+
+        }
     }
 } else {
     $nombre_eq = "";
-    $liga_eq = "";
-    $idestadio_eq = "";
-    $division_eq = "";
+    $Nombre_lig = "";
+    $idestadio_temeq = "";
+    $nombre_div = "";
     $ciudad_eq = "";
-    $identrenado_eq = "";
+    $identrenador_temeq = "";
     $provincia_eq = "";
-    $presidente_eq = "";
+    $presidente_temeq = "";
     $idestadio_nombre = "";
     $identrenador_nombre = "";
 }
-if ($idestadio_eq != "") {
-    $consulta_estadio = "SELECT nombre_estadio from estadio where idestadio=" . $idestadio_eq . ";";
-    foreach ($db->query($consulta_estadio) as $fila) {
-        $idestadio_nombre = $fila['nombre_estadio'];
-    }
-}
-if ($identrenado_eq != "") {
-    $consulta_entrenador = "SELECT nombre_ent,apellidos_ent from entrenadores where identrenador=" . $identrenado_eq . ";";
-    foreach ($db->query($consulta_entrenador) as $fila) {
-        $identrenador_nombre = $fila['nombre_ent'] . " " . $fila['apellidos_ent'];;
-    }
-}
+
 ?>
 <div>
     <div class="container">
@@ -81,7 +100,17 @@ if ($identrenado_eq != "") {
 
                 </ul>
             </div>
+
             <div class="col-md-8"><img id="imagen" src="assets/img/descarga.png">
+                <form>
+                    <select name="temporada_select" id="temporada_select">
+                        <optgroup label="Recuerde seleccionar un equipo">
+                            <option value="0" selected="">Seleccione una temporada</option>
+                            <?php echo $temporada ?>
+                        </optgroup>
+                    </select>
+                    <button type="submit">Seleccionar Temporada</button>
+                </form>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -92,8 +121,8 @@ if ($identrenado_eq != "") {
                         </thead>
                         <tbody>
                         <tr>
-                            <td><?php echo $nombre_eq ?></td>
-                            <td><?php echo $liga_eq ?></td>
+                            <td><?php echo @$nombre_eq_l ?></td>
+                            <td><?php echo @$nombre_lig ?></td>
                         </tr>
                         <thead>
                         <tr>
@@ -102,8 +131,8 @@ if ($identrenado_eq != "") {
                         </tr>
                         </thead>
                         <tr>
-                            <td><?php echo $idestadio_nombre ?></td>
-                            <td><?php echo $division_eq ?></td>
+                            <td><?php echo @$idestadio_nombre ?></td>
+                            <td><?php echo @$nombre_div?></td>
                         </tr>
                         <thead>
                         <tr>
@@ -112,8 +141,8 @@ if ($identrenado_eq != "") {
                         </tr>
                         </thead>
                         <tr>
-                            <td><?php echo $ciudad_eq ?></td>
-                            <td><?php echo $identrenador_nombre ?></td>
+                            <td><?php echo @$ciudad_eq ?></td>
+                            <td><?php echo @$identrenador_nombre ?></td>
                         </tr>
                         <thead>
                         <tr>
@@ -122,8 +151,8 @@ if ($identrenado_eq != "") {
                         </tr>
                         </thead>
                         <tr>
-                            <td><?php echo $provincia_eq ?></td>
-                            <td><?php echo $presidente_eq ?></td>
+                            <td><?php echo @$provincia_eq ?></td>
+                            <td><?php echo @$presidente_temeq ?></td>
                         </tr>
 
                     </table>

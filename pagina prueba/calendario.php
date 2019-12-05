@@ -18,7 +18,7 @@
      <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <?php include 'conexionproyecto.php';
-    $consulta="SELECT idpartido, fecha_cal,local_cal,goleslocal_cal,visitante_cal,golesvisitante_cal,idestadio_cal FROM calendario";
+    $consulta="SELECT jornada_cal, fecha_cal,local_cal,goleslocal_cal,visitante_cal,golesvisitante_cal,idestadio_cal FROM calendario order by jornada_cal";
 
     ?>
 
@@ -66,22 +66,21 @@
             }
             // Se crea un bucle que se repetirá tantas veces como filas tenga la consulta.
             foreach ($db->query($consulta) as $fila) {
-                $Jornada = $fila['idpartido'];
+                $Jornada = $fila['jornada_cal'];
                 $Fecha = $fila['fecha_cal'];
+                $Fechaespañola = date("d/m/Y", strtotime($Fecha));
                 $Local = $fila['local_cal'];
                 $GolesL = $fila['goleslocal_cal'];
                 $GolesV = $fila['golesvisitante_cal'];
                 $Visitante = $fila['visitante_cal'];
                 $Estadio = $fila['idestadio_cal'];
-
                 $consultaLocal = localVisitante_estadio($db, $Local,2);
                 $consultaVistante = localVisitante_estadio($db,$Visitante,2);
                 $consultaEstadio = localVisitante_estadio($db,$Estadio,1);
-
                 ?>
                 <!-- Se crea una fila de la tabla con los datos obtenidos -->
                 <tr><td><?php echo ($Jornada); ?></td>
-                    <td><?php echo ($Fecha); ?></td>
+                    <td><?php echo ($Fechaespañola); ?></td>
                     <td><?php echo ($consultaLocal); ?></td>
                     <td><?php echo ($GolesL); ?></td>
                     <td><?php echo ("<i class=\"fa fa-handshake-o\"></i>"); ?></td>

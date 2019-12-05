@@ -16,38 +16,44 @@
     <link rel="stylesheet" href="assets/css/Footer-Dark.css">
     <link rel="stylesheet" href="assets/css/Header-Blue.css">
     <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
-    <script type="text/javascript" src="assets/js/registro.js"></script>
-    <?php include 'cabecera.php';?>
+    <?php include 'cabecera.php'; ?>
 
     <?php
-    session_start();
+
     include 'conexionusuarios.php';
     $msg = "";
     if (isset($_POST['enviar_registro'])) {
-    $usuario_registro = trim($_POST['usuario_registro']);
-    $nombre_registro= trim($_POST['nombre_registro']);
-    $apellidos_registro= trim($_POST['apellidos_registro']);
-    $correo_registro= trim($_POST['correo_registro']);
-    $contrasena_registro= trim($_POST['contrasena_registro']);
-    $contrasena_registro2= trim($_POST['contrasena_registro2']);
-       $hora = getdate();
-        $sql1 = $db->prepare("INSERT INTO contrasenas(contrasena,fecha_modificacion) VALUES (:contrasena_registro, :hora)");
-        $sql1->bindParam('contrasena_registro', $contrasena_registro, PDO::PARAM_STR);
+        $usuario_registro = trim($_POST['usuario_registro']);
+        $nombre_registro = trim($_POST['nombre_registro']);
+        $apellidos_registro = trim($_POST['apellidos_registro']);
+        $correo_registro = trim($_POST['correo_registro']);
+        $contrasena_registro = trim($_POST['contrasena_registro']);
+        $contrasena_registro2 = trim($_POST['contrasena_registro2']);
+        if (strlen($contrasena_registro) < 6) {
+            $msg = "La costraseña tiene que tener minimo 6 carapteres";
+        } else if ($contrasena_registro != $contrasena_registro2) {
+            $msg = "Las costraseñas tiene que ser iguales";
 
-        $sql1->execute();
+        } else {
+            $hora = date("Y-m-d H:i:s");
+            $sql1 = $db->prepare("INSERT INTO contrasenas(contrasena,fecha_modificacion) VALUES (:contrasena_registro,' $hora ');");
+            $sql1->bindParam('contrasena_registro', $contrasena_registro, PDO::PARAM_STR);
+            $sql1->execute();
+            $contra = "Select id_contrasena from contrasenas where contrasena = \"$contrasena_registro\" AND  fecha_modificacion = \"$hora\";";
+            $idcontra = 0;
+            foreach ($db->query($contra) as $fila) {
+                $idcontra = $fila['id_contrasena'];
 
-        //$sql2 = $db->prepare("INSERT INTO registro(codigo, nombre, a_materno, a_paterno) VALUES (:codigo, :nombre, :a_materno, :a_paterno)");
+            }
+            $sql2 = $db->prepare("INSERT INTO usuarios(usuario,nombre_usu,apellido_usu,correo_usu,id_contrasena_usu) VALUES (:usuario_registro,:nombre_registro,:apellidos_registro,:correo_registro,$idcontra);");
+            $sql2->bindParam('usuario_registro', $usuario_registro, PDO::PARAM_STR);
+            $sql2->bindParam('nombre_registro', $nombre_registro, PDO::PARAM_STR);
+            $sql2->bindParam('apellidos_registro', $apellidos_registro, PDO::PARAM_STR);
+            $sql2->bindParam('correo_registro', $correo_registro, PDO::PARAM_STR);
+            $sql2->execute();
 
-
-/*
-    $sql = $db->prepare("INSERT INTO registro(codigo, nombre, a_materno, a_paterno) VALUES (:codigo, :nombre, :a_materno, :a_paterno)");
-    $sql2 = $db->prepare("INSERT INTO registro(codigo, nombre, a_materno, a_paterno) VALUES (:codigo, :nombre, :a_materno, :a_paterno)");
-
-    $sql->bindParam('username', $username, PDO::PARAM_STR);
-    $sql->bindValue('password', $password, PDO::PARAM_STR);
-    $sql->execute();
-
-*/}
+        }
+    }
     ?>
 </head>
 
@@ -59,25 +65,32 @@
         <div class="form-row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <input class="form-control" type="text" id="usuario_registro" name="usuario_registro" placeholder="Usuario">
-                    <input class="form-control" type="text" id="nombre_registro" name="nombre_registro" placeholder="Nombre">
-                    <input class="form-control" type="text" id="apellidos_registro" name="apellidos_registro" placeholder="Apellidos">
+                    <input class="form-control" type="text" id="usuario_registro" name="usuario_registro"
+                           placeholder="Usuario" required>
+                    <input class="form-control" type="text" id="nombre_registro" name="nombre_registro"
+                           placeholder="Nombre" required>
+                    <input class="form-control" type="text" id="apellidos_registro" name="apellidos_registro"
+                           placeholder="Apellidos">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <input class="form-control" type="email" id="correo_registro" name="correo_registro" placeholder="Correo electronico">
-                    <input class="form-control" type="password" id="contrasena_registro" name="contrasena_registro" placeholder="Contraseña">
-                    <input class="form-control" type="password" id="contrasena2_registro2" name="contrasena_registro2" placeholder="Repite Contraseña">
+                    <input class="form-control" type="email" id="correo_registro" name="correo_registro"
+                           placeholder="Correo electronico" required>
+                    <input class="form-control" type="password" id="contrasena_registro" name="contrasena_registro"
+                           placeholder="Contraseña" required>
+                    <input class="form-control" type="password" id="contrasena_registro2" name="contrasena_registro2"
+                           placeholder="Repite Contraseña" required>
                 </div>
             </div>
         </div>
     </div>
 
-    <p style="text-align: center;"><input type="submit" name="enviar_registro" id="enviar_registro" value="Login" onclick="combrobar()"/></p> </form>
-
-<span  class="text-danger" ><?php echo @$msg;?></span>
+    <p style="text-align: center;"><input type="submit" name="enviar_registro" id="enviar_registro" value="Login"/></p>
 </form>
+
+<span class="text-danger"><?php echo @$msg ?></span>
+
 <?php include 'pie.php'; ?>
 </body>
 
