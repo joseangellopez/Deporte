@@ -105,7 +105,21 @@ INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_ju
 INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_jug, nacionalidad_jug) VALUES  ( "Ángel",  "antos", "El tigre", '1908-07-09', "12123297F", "sudanés");
 INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_jug, nacionalidad_jug) VALUES  ( "Gergio",  "Rodri", "El mono", '1991-04-06', "02675297F", "Mongolo");
 INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_jug, nacionalidad_jug) VALUES  ( "Fragancio",  "Lopez", "Fraga", '1998-07-09', "12675297T", "Español");
-
+	#Liga
+INSERT INTO liga (nombre_lig) VALUES  ("Liga Española");
+INSERT INTO liga (nombre_lig) VALUES  ("Liga Italiana");
+	
+	#Division
+INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Liga Santander",1);
+INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Liga 123",1);
+INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Serie A",2);
+INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Serie B",2);
+	#temporada_equipo
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,1,"Aure Cano",1,1,1);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (2,1,"Aure Cano",1,1,1);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,2,"Manuela Carmena",2,2,1);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (2,2,"Puigdemont",3,3,2);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,3,"",4,3,2);
 	#Calendario/Partidos
 	
 INSERT INTO calendario (fecha_cal, local_cal, visitante_cal, jornada_cal, idestadio_cal, idtemporada_cal, goleslocal_cal, golesvisitante_cal) VALUES  ('2019-11-08', 1, 2,"1", 1, 1, 0, 17);
@@ -135,20 +149,7 @@ INSERT INTO jugador_equipo_temporada (jugador_idjugador, temporada_idtemporada,i
 INSERT INTO jugador_equipo_temporada (jugador_idjugador, temporada_idtemporada,idequipo_jet,idposicion_jet,numero_jug_jet) VALUES  (5,1,5,3,34);
 INSERT INTO jugador_equipo_temporada (jugador_idjugador, temporada_idtemporada,idequipo_jet,idposicion_jet,numero_jug_jet) VALUES  (6,2,6,3,39);
 
-	#Liga
-INSERT INTO liga (nombre_lig) VALUES  ("Liga Española");
-INSERT INTO liga (nombre_lig) VALUES  ("Liga Italiana");
-	
-	#Division
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Liga Santander",1);
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Liga 123",1);
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Serie A",2);
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Serie B",2);
 
 
-	#temporada_equipo
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,1,"Aure Cano",1,1,1);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (2,1,"Aure Cano",1,1,1);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,2,"Manuela Carmena",2,2,1);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (2,2,"Puigdemont",3,3,2);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,3,"",4,3,2);
+
+

@@ -36,16 +36,18 @@
 
         } else {
             $hora = date("Y-m-d H:i:s");
+           $contraseña =  password_hash( $contrasena_registro, PASSWORD_DEFAULT);
+
             $sql1 = $db->prepare("INSERT INTO contrasenas(contrasena,fecha_modificacion) VALUES (:contrasena_registro,' $hora ');");
-            $sql1->bindParam('contrasena_registro', $contrasena_registro, PDO::PARAM_STR);
+            $sql1->bindParam('contrasena_registro', $contraseña, PDO::PARAM_STR);
             $sql1->execute();
-            $contra = "Select id_contrasena from contrasenas where contrasena = \"$contrasena_registro\" AND  fecha_modificacion = \"$hora\";";
+            $contra = "Select id_contrasena from contrasenas where contrasena = \"$contraseña\" AND  fecha_modificacion = \"$hora\";";
             $idcontra = 0;
             foreach ($db->query($contra) as $fila) {
                 $idcontra = $fila['id_contrasena'];
 
             }
-            $sql2 = $db->prepare("INSERT INTO usuarios(usuario,nombre_usu,apellido_usu,correo_usu,id_contrasena_usu) VALUES (:usuario_registro,:nombre_registro,:apellidos_registro,:correo_registro,$idcontra);");
+            $sql2 = $db->prepare("INSERT INTO usuarios(usuario,nombre_usu,apellido_usu,email,id_contrasena_usu) VALUES (:usuario_registro,:nombre_registro,:apellidos_registro,:correo_registro,$idcontra);");
             $sql2->bindParam('usuario_registro', $usuario_registro, PDO::PARAM_STR);
             $sql2->bindParam('nombre_registro', $nombre_registro, PDO::PARAM_STR);
             $sql2->bindParam('apellidos_registro', $apellidos_registro, PDO::PARAM_STR);
