@@ -25,6 +25,14 @@
 <?php include 'conexionproyecto.php'; ?>
 <?php
 
+
+function nombre_equipo($db, $id_equipo_consulta){
+    $consulta = "select nombre_eq from equipo where idequipo = ". $id_equipo_consulta;
+    foreach ($db->query($consulta) as $fila){
+        $nombre = $fila['nombre_eq'];
+        }
+        return $nombre;
+}
 $lista = "";
 $consulta_equipos = "SELECT idequipo, nombre_eq from equipo;";
 foreach ($db->query($consulta_equipos) as $fila) {
@@ -34,33 +42,32 @@ foreach ($db->query($consulta_equipos) as $fila) {
 }
 //--------------------------------------------------------------------------
 if (isset($_GET['equipo'])) {
+    setcookie('equipo_select', $_GET['equipo']);
+}
+if(isset($_COOKIE['equipo_select'])) {
     $temporada = "";
-    $equipo = (int)$_GET['equipo'];
-    $consulta_jugadores = "SELECT idtemporada_temeq,ano_principio,ano_fin from temporada_equipo,temporada where idtemporada=idtemporada_temeq AND  idequipo_temeq=" . $equipo;
+    $consulta_jugadores = "SELECT idtemporada_temeq,ano_principio,ano_fin from temporada_equipo,temporada where idtemporada=idtemporada_temeq AND  idequipo_temeq=" . @$_COOKIE['equipo_select'];
     foreach ($db->query($consulta_jugadores) as $fila) {
         $idtemporada_temeq = $fila['idtemporada_temeq'];
         $ano_principio = $fila['ano_principio'];
         $ano_fin = $fila['ano_fin'];
-        $temporada .= "<option value=\"" . $idtemporada_temeq."\">". $ano_principio . "-" . $ano_fin  . "</option>";
+        $temporada .= "<option value=\"" . $idtemporada_temeq . "\">" . $ano_principio . "-" . $ano_fin . "</option>";
     }
 }
-
 if (isset($_GET['temporada_select'])) {
     $jugadores = "";
     $equipo = (int)$_GET['temporada_select'];
     if ($equipo  == 0){
-            $nombre_eq_l =  "";
-            $nombre_lig = "";
-            $idestadio_temeq = "";
-            $nombre_div = "";
-            $ciudad_eq = "";
-            $identrenador_temeq = "";
-            $provincia_eq = "";
-            $presidente_temeq = "";
-            $idestadio_nombre = "";
-            $identrenador_nombre = "";
-
-
+        $nombre_eq_l =  "";
+        $nombre_lig = "";
+        $idestadio_temeq = "";
+        $nombre_div = "";
+        $ciudad_eq = "";
+        $identrenador_temeq = "";
+        $provincia_eq = "";
+        $presidente_temeq = "";
+        $idestadio_nombre = "";
+        $identrenador_nombre = "";
     }else {
         $consulta_infoEquipo = "SELECT * from equipo,temporada_equipo,division,liga,estadio,entrenadores where idestadio_temeq = idestadio AND identrenador_temeq = identrenador AND idequipo = idequipo_temeq AND division_temeq = iddivision AND liga_idliga = idliga  AND  idequipo=" . $equipo;
         foreach ($db->query($consulta_infoEquipo) as $fila) {
@@ -74,9 +81,16 @@ if (isset($_GET['temporada_select'])) {
             $presidente_temeq = $fila['presidente_temeq'];
             $idestadio_nombre = $fila['nombre_estadio'];
             $identrenador_nombre = $fila['nombre_ent'] . " " . $fila['apellidos_ent'];
-
         }
+        $consulta_partidos = "select fecha_cal, local_cal, goleslocal_cal, golesvisitante_cal, visitante_cal from calendario where idtemporada_cal = " . $_GET['temporada_select'] . " and local_cal = " . $_COOKIE['equipo_select']. " or visitante_cal = ". $_COOKIE['equipo_select']. " order by fecha_cal desc";
+        $listado = "";
+        foreach ($db->query($consulta_partidos) as $fila) {
+            $fecha = date("d/m/Y", strtotime($fila['fecha_cal']));
+            $listado .= "<tr><td>" . $fecha . "</td><td>" . nombre_equipo($db,$fila['local_cal']) . "</td><td>" . $fila['goleslocal_cal'] . "</td><td>" . $fila['golesvisitante_cal'] . "</td><td>" . nombre_equipo($db, $fila['visitante_cal']) . "</td></tr>";
+        }
+
     }
+    // $Fechaespañola = date("d/m/Y", strtotime($Fecha));
 } else {
     $nombre_eq = "";
     $Nombre_lig = "";
@@ -154,6 +168,24 @@ if (isset($_GET['temporada_select'])) {
                             <td><?php echo @$provincia_eq ?></td>
                             <td><?php echo @$presidente_temeq ?></td>
                         </tr>
+
+                    </table>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Local</th>
+                            <th>Goles Local</th>
+                            <th>Goles Visitante</th>
+                            <th>Visitante</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td><?php echo @$listado ?></td>
+                        </tr>
+
 
                     </table>
                 </div>

@@ -21,35 +21,31 @@
     <link rel="stylesheet" href="assets/css/styles_jugadores.css">
     <style>
         .img_jug {
-            margin-left: 0px;
+            margin-left: 0;
         }
     </style>
 </head>
-<script>
-
-
-</script>
 <body>
 <?php include 'cabecera.php'; ?>
 <?php include 'conexionproyecto.php'; ?>
 <?php
-$url = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-//Lista de equipos
 $lista = "";
 $consulta_equipos = "SELECT idequipo, nombre_eq from equipo;";
-$url = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 foreach ($db->query($consulta_equipos) as $fila) {
     $idequipo = $fila['idequipo'];
     $nombre_eq = $fila['nombre_eq'];
-    $lista .= "<li value=\"" . $idequipo . "\"><a href=?equipo=" . $idequipo . "&>" . $nombre_eq . "</a></li>";
+    $lista .= "<li value=\"" . $idequipo . "\"><a href=?equipo=" . $idequipo . ">" . $nombre_eq . "</a></li>";
 }
 //_-----------------------------------------------------------------------_\\
 
 
 if (isset($_GET['equipo'])) {
+    setcookie('equipo_seleccionado', $_GET['equipo']);
+}
+
+if (isset($_COOKIE['equipo_seleccionado'])) {
     $jugadores = "";
-    $equipo = (int)$_GET['equipo'];
-    $consulta_jugadores = "SELECT idjugador, alias_jug from jugador,jugador_equipo_temporada  where idequipo_jet=" . $equipo . " and Jugador_idjugador=idjugador";
+    $consulta_jugadores = "SELECT idjugador, alias_jug from jugador,jugador_equipo_temporada  where idequipo_jet=" . @$_COOKIE['equipo_seleccionado'] . " and Jugador_idjugador=idjugador";
     foreach ($db->query($consulta_jugadores) as $fila) {
         $idjugador = $fila['idjugador'];
         $alias_jug = $fila['alias_jug'];
@@ -80,7 +76,6 @@ if (isset($jugador_actual)) {
 
     }
 }
-
 
 ?>
 <div>

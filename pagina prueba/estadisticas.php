@@ -32,7 +32,7 @@ function listar($db, $tipo)
 {
     $lista = "";
     // SELECT idjugador_inc1, count(idtincidencia_inc) as cantidad_inc from incidencia where idtincidencia_inc = 1 GROUP BY idtincidencia_inc order by idjugador_inc1;
-    $consulta_inc = "SELECT idjugador1_inc, count(idtincidencia_inc) as cantidad_inc from incidencia where idtincidencia_inc = " . $tipo . " GROUP BY idtincidencia_inc order by idjugador1_inc;";
+    $consulta_inc = "SELECT idjugador1_inc, count(idjugador1_inc) as cantidad_inc from incidencia where idtincidencia_inc = " . $tipo . "  GROUP BY  idjugador1_inc order by cantidad_inc desc limit 5;";
     foreach ($db->query($consulta_inc) as $fila) {
         $jugador = $fila['idjugador1_inc'];
         $cantidad_inc = $fila['cantidad_inc'];

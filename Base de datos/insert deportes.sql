@@ -37,6 +37,7 @@ INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (1,'Falta');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (1,'Cambio');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (1,'Penalti');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (1,'Córner');
+INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (1,'Expulsiones');
 
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (2,'Tiro libre');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (2,'Canasta simple');
@@ -47,6 +48,7 @@ INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (2,'Falta');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (2,'Falta Técnica');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (2,'Falta Antideportiva');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (2,'Cambio');
+INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (2,'Expulsiones');
 
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Gol');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Asistencia');
@@ -58,6 +60,8 @@ INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Tarjeta Am
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Tarjeta Roja');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Tarjeta Azul');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Cambio');
+INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Expulsiones');
+INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (3,'Exclusiones');
 
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (4,'Gol');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (4,'Asistencia');
@@ -67,6 +71,7 @@ INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (4,'Penalti');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (4,'Tarjeta Amarilla');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (4,'Tarjeta Roja');
 INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (4,'Cambio');
+INSERT INTO tipo_incidencias (iddeporte_tinc,nombre_tinc) VALUES  (4,'Expulsiones');
 
 
 
@@ -84,17 +89,6 @@ INSERT INTO entrenadores ( idtentrenador_ent, nombre_ent, apellidos_ent, naciona
 INSERT INTO entrenadores ( idtentrenador_ent, nombre_ent, apellidos_ent, nacionalidad_ent) VALUES  (2, 'Miguel', 'Urbano', 'Çatalâ');
 INSERT INTO entrenadores ( idtentrenador_ent, nombre_ent, apellidos_ent, nacionalidad_ent) VALUES  (2, 'Serio', 'Siles', 'Mongolo');
 
-	#Equipo
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (1, "Real Jaén", "Jaén", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (1, "Villanueva del Arzobispo C.F", "Vva", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (1, "Mogon F.C", "Mogon", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (1, "AM SYSTEM SA", "Jaen", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (2, "Villanueva del Arzobispo C.F", "Vva", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (2, "Real Jaén", "Jaén", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (3, "Real Jaén", "Jaén", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (3, "Mogon F.C", "Mogon", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (4, "Mogon F.C", "Mogon", "Jaén");
-INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq) VALUES  (4, "Villanueva del Arzobispo C.F", "Vva", "Jaén");
 
 	#Jugador
 INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_jug, nacionalidad_jug) VALUES  ( "José Ángel",  "Lopez Santos", "Molina", '1998-07-09', "12675297F", "Mongolo");
@@ -105,21 +99,37 @@ INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_ju
 INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_jug, nacionalidad_jug) VALUES  ( "Ángel",  "antos", "El tigre", '1908-07-09', "12123297F", "sudanés");
 INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_jug, nacionalidad_jug) VALUES  ( "Gergio",  "Rodri", "El mono", '1991-04-06', "02675297F", "Mongolo");
 INSERT INTO  jugador ( nombre_jug, apellido_jug, alias_jug, fechanac_jug, dni_jug, nacionalidad_jug) VALUES  ( "Fragancio",  "Lopez", "Fraga", '1998-07-09', "12675297T", "Español");
-	#Liga
-INSERT INTO liga (nombre_lig) VALUES  ("Liga Española");
-INSERT INTO liga (nombre_lig) VALUES  ("Liga Italiana");
+	
+	#Pais
+INSERT INTO pais (nombre_pais) VALUES  ("España");
+INSERT INTO pais (nombre_pais) VALUES  ("Italia");
+INSERT INTO pais (nombre_pais) VALUES  ("Francia");
+INSERT INTO pais (nombre_pais) VALUES  ("Inglaterra");
+INSERT INTO pais (nombre_pais) VALUES  ("Alemania");
+	
+	#Equipo
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (1, "Real Jaén", "Jaén", "Jaén",1);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (1, "Villanueva del Arzobispo C.F", "Vva", "Jaén",1);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (1, "Mogon F.C", "Mogon", "Jaén",2);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (1, "AM SYSTEM SA", "Jaen", "Jaén",1);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (2, "Villanueva del Arzobispo C.F", "Vva", "Jaén",3);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (2, "Real Jaén", "Jaén", "Jaén",1);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (3, "Real Jaén", "Jaén", "Jaén",2);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (3, "Mogon F.C", "Mogon", "Jaén",5);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (4, "Mogon F.C", "Mogon", "Jaén",3);
+INSERT INTO equipo (deporte_iddeporte, nombre_eq, ciudad_eq, provincia_eq,idpais_eq) VALUES  (4, "Villanueva del Arzobispo C.F", "Vva", "Jaén",4);
 	
 	#Division
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Liga Santander",1);
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Liga 123",1);
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Serie A",2);
-INSERT INTO division (nombre_div,liga_idliga) VALUES  ("Serie B",2);
+INSERT INTO division (nombre_div,descripcion_div,idpais_div) VALUES  ("Liga Santander","Liga de primera division de España",1);
+INSERT INTO division (nombre_div,descripcion_div,idpais_div) VALUES  ("Liga 123","Liga de segunda division de España",1);
+INSERT INTO division (nombre_div,descripcion_div,idpais_div) VALUES  ("Serie A","Liga de  primera division de Italia",2);
+INSERT INTO division (nombre_div,descripcion_div,idpais_div) VALUES  ("Serie B","Liga de segunda division de Italia",2);
 	#temporada_equipo
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,1,"Aure Cano",1,1,1);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (2,1,"Aure Cano",1,1,1);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,2,"Manuela Carmena",2,2,1);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (2,2,"Puigdemont",3,3,2);
-INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,division_temeq) VALUES  (1,3,"",4,3,2);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,iddivision_temeq) VALUES  (1,1,"Aure Cano",1,1,1);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,iddivision_temeq) VALUES  (2,1,"Aure Cano",1,1,1);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,iddivision_temeq) VALUES  (1,2,"Manuela Carmena",2,2,1);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,iddivision_temeq) VALUES  (2,2,"Puigdemont",3,3,2);
+INSERT INTO temporada_equipo (idtemporada_temeq, idequipo_temeq,presidente_temeq,idestadio_temeq,identrenador_temeq,iddivision_temeq) VALUES  (1,3,"",4,3,2);
 	#Calendario/Partidos
 	
 INSERT INTO calendario (fecha_cal, local_cal, visitante_cal, jornada_cal, idestadio_cal, idtemporada_cal, goleslocal_cal, golesvisitante_cal) VALUES  ('2019-11-08', 1, 2,"1", 1, 1, 0, 17);
@@ -127,13 +137,18 @@ INSERT INTO calendario (fecha_cal, local_cal, visitante_cal, jornada_cal, idesta
 INSERT INTO calendario (fecha_cal, local_cal, visitante_cal, jornada_cal, idestadio_cal, idtemporada_cal, goleslocal_cal, golesvisitante_cal) VALUES  ('2019-11-22', 1, 3,"1", 1, 1, 0, 0);
 INSERT INTO calendario (fecha_cal, local_cal, visitante_cal, jornada_cal, idestadio_cal, idtemporada_cal, goleslocal_cal, golesvisitante_cal) VALUES  ('2019-11-22', 5, 6,"1", 3, 1, 78, 97);
 INSERT INTO calendario (fecha_cal, local_cal, visitante_cal, jornada_cal, idestadio_cal, idtemporada_cal, goleslocal_cal, golesvisitante_cal) VALUES  ('2019-11-22', 6, 5,"1", 3, 1, 56, 123);
-
+INSERT INTO calendario (fecha_cal, local_cal, visitante_cal, jornada_cal, idestadio_cal, idtemporada_cal, goleslocal_cal, golesvisitante_cal) VALUES  ('2020-01-22', 1, 2,"1", 2, 1, 0, 3);
 	#Incidencias
 	
 INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (1,1,1,2,"94");
 INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (2,2,2,1,"23");
 INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (5,1,4,1,"34");
-
+INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (1,1,4,1,"33");
+INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (3,3,2,1,"34");
+INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (1,1,3,3,"74");
+INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (5,1,4,1,"34");
+INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (9,1,2,1,"34");
+INSERT INTO incidencia (idtincidencia_inc, idpartido_inc, idjugador1_inc, idjugador2_inc, tiempo_inc) VALUES  (1,2,1,3,"95");
 	#Arbitra ( Calendario/partido - Arbitro)
 	
 INSERT INTO arbitra (idpartido_arbitra, idarbitro_arbitra) VALUES  (1,1);
