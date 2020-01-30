@@ -6,19 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>jugadores</title>
-
-    <!-- Cabecera y pie-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
-    <link rel="stylesheet" href="assets/css/styles_cabecera.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
-
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles_jugadores.css">
+    <?php include 'links.php';
+    links("jugadores");
+    ?>
     <style>
         .img_jug {
             margin-left: 0;
@@ -29,6 +19,8 @@
 <?php include 'cabecera.php'; ?>
 <?php include 'conexionproyecto.php'; ?>
 <?php
+$temporada = "";
+$idtemporada = 1;
 $lista = "";
 $consulta_equipos = "SELECT idequipo, nombre_eq from equipo;";
 foreach ($db->query($consulta_equipos) as $fila) {
@@ -36,16 +28,26 @@ foreach ($db->query($consulta_equipos) as $fila) {
     $nombre_eq = $fila['nombre_eq'];
     $lista .= "<li value=\"" . $idequipo . "\"><a href=?equipo=" . $idequipo . ">" . $nombre_eq . "</a></li>";
 }
+
 //_-----------------------------------------------------------------------_\\
-
-
+$consulta_temporada = "select idtemporada,ano_principio,ano_fin from temporada order by  idtemporada desc;";
+foreach ($db->query($consulta_temporada) as $fila) {
+    $idtemporada = $fila['idtemporada'];
+    $principio = $fila['ano_principio'];
+    $fin = $fila['ano_fin'];
+    $temporada .= "<option value=\"" . $idtemporada . "\">". $principio ."-" . $fin . "</option>";
+}
 if (isset($_GET['equipo'])) {
     setcookie('equipo_seleccionado', $_GET['equipo']);
 }
 
-if (isset($_COOKIE['equipo_seleccionado'])) {
+if (isset($_GET['temporada_select'])) {
+    setcookie('temporada_seleccionado', $_GET['temporada_select']);
+}
+
+if (isset($_COOKIE['equipo_seleccionado']) && isset($_COOKIE['temporada_seleccionado'])) {
     $jugadores = "";
-    $consulta_jugadores = "SELECT idjugador, alias_jug from jugador,jugador_equipo_temporada  where idequipo_jet=" . @$_COOKIE['equipo_seleccionado'] . " and Jugador_idjugador=idjugador";
+    $consulta_jugadores = "SELECT idjugador, alias_jug from jugador,jugador_equipo_temporada  where idequipo_jet=" . @$_COOKIE['equipo_seleccionado'] . " and Jugador_idjugador=idjugador and temporada_idtemporada = " . @$_COOKIE['temporada_seleccionado'];
     foreach ($db->query($consulta_jugadores) as $fila) {
         $idjugador = $fila['idjugador'];
         $alias_jug = $fila['alias_jug'];
@@ -58,11 +60,11 @@ if (isset($_COOKIE['equipo_seleccionado'])) {
 @$jugador_actual = $_GET['jugador_select'];
 if (isset($jugador_actual)) {
     $info_jug = "";
-    $jugador = (int)$_GET['jugador_select'];
-    $consulta = "SELECT nombre_jug, apellido_jug, alias_jug, fechanac_jug, nacionalidad_jug, numero_jug_jet, nombre_eq, nombre_pos, Nombre_lig
-    from jugador , jugador_equipo_temporada, equipo, posicion, temporada_equipo, division, liga  
-    where Jugador_idjugador=" . $jugador . " and idjugador = " . $jugador . " and idequipo_jet= idequipo
-    and idposicion_jet = idposicion and idequipo_temeq = idequipo and division_temeq = iddivision and liga_idliga = idliga";
+    $id_jug = (int)$_GET['jugador_select'];
+    $consulta = "SELECT nombre_jug, apellido_jug, alias_jug, fechanac_jug, nacionalidad_jug, numero_jug_jet, nombre_eq, nombre_pos, nombre_div 
+    from jugador , jugador_equipo_temporada, equipo, posicion, temporada_equipo, division
+    where Jugador_idjugador=" . $id_jug . " and idjugador = " . $id_jug . " and idequipo_jet= idequipo
+    and idposicion_jet = idposicion and idequipo_temeq = idequipo and iddivision_temeq = iddivision ";
     foreach ($db->query($consulta) as $fila) {
         $nombre_jug = $fila['nombre_jug'];
         $apellido_jug = $fila['apellido_jug'];
@@ -72,8 +74,18 @@ if (isset($jugador_actual)) {
         $numero_jug = $fila['numero_jug_jet'];
         $equipo_jug = $fila['nombre_eq'];
         $idposicion_jug = $fila['nombre_pos'];
-        $liga_jug = $fila['Nombre_lig'];
+        $liga_jug = $fila['nombre_div'];
 
+    }
+
+}
+if(isset($_COOKIE['temporada_seleccionado'])) {
+    $temporada1 = "select ano_principio,ano_fin from temporada where idtemporada = " . @$_COOKIE['temporada_seleccionado'];
+    $temporada2 = "";
+    foreach ($db->query($temporada1) as $fila) {
+        $ano_principio = $fila['ano_principio'];
+        $ano_fin = $fila['ano_fin'];
+        $temporada2 = "$ano_principio - $ano_fin";
     }
 }
 
@@ -91,11 +103,21 @@ if (isset($jugador_actual)) {
                     <select name="jugador_select" id="jugador_select">
                         <optgroup label="Recuerde seleccionar un equipo">
                             <option value="0" selected="">Seleccione un jugador</option>
-                            <?php echo $jugadores ?>
+                            <?php echo @$jugadores ?>
                         </optgroup>
                     </select>
                     <button type="submit">Seleccionar Jugador</button>
                 </form>
+                <form>
+                    <select name="temporada_select" id="temporada_select">
+                            <option value="0" selected="">Seleccione una temporada</option>
+                            <?php echo $temporada ?>
+                        </optgroup>
+                    </select>
+                    <button type="submit">Seleccionar Temporada</button>
+                </form>
+                <p>Temporada seleccionada:<b> <?php echo @$temporada2;?></b></p>
+
                 <div class="table-responsive">
                     <table class="table">
                         <img class="img_jug" src="assets/img/descarga.png"/>

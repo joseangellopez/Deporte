@@ -5,17 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Equipos</title>
-    <!-- Cabecera y pie-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
-    <link rel="stylesheet" href="assets/css/styles_cabecera.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles_equipos.css">
+    <?php include 'links.php';
+    links("equipos");
+    ?>
 
 
 </head>
@@ -69,10 +61,10 @@ if (isset($_GET['temporada_select'])) {
         $idestadio_nombre = "";
         $identrenador_nombre = "";
     }else {
-        $consulta_infoEquipo = "SELECT * from equipo,temporada_equipo,division,liga,estadio,entrenadores where idestadio_temeq = idestadio AND identrenador_temeq = identrenador AND idequipo = idequipo_temeq AND division_temeq = iddivision AND liga_idliga = idliga  AND  idequipo=" . $equipo;
+        $consulta_infoEquipo = "SELECT * from equipo,temporada_equipo,division,estadio,entrenadores, pais where idestadio_temeq = idestadio AND identrenador_temeq = identrenador AND idequipo = idequipo_temeq AND idpais=idpais_div and iddivision_temeq = iddivision  AND  idequipo=" . $equipo;
         foreach ($db->query($consulta_infoEquipo) as $fila) {
             $nombre_eq_l = $fila['nombre_eq'];
-            $nombre_lig = $fila['nombre_lig'];
+            $nombre_lig = $fila['nombre_pais'];
             $idestadio_temeq = $fila['idestadio_temeq'];
             $nombre_div = $fila['nombre_div'];
             $ciudad_eq = $fila['ciudad_eq'];
@@ -130,7 +122,7 @@ if (isset($_GET['temporada_select'])) {
                         <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Liga</th>
+                            <th>País</th>
                         </tr>
                         </thead>
                         <tbody>

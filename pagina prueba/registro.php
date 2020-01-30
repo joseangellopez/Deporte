@@ -5,17 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>registro</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles_registro.css">
-    <!-- Cabecera y pie-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
-    <link rel="stylesheet" href="assets/css/styles_cabecera.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
+    <?php include 'links.php';
+    links("resgistro");
+    ?>
+
+</head>
     <?php include 'cabecera.php'; ?>
 
     <?php
@@ -129,7 +123,7 @@
                 <div class="form-group">
                     <input class="form-control" type="email" id="correo_registro" name="correo_registro"
                            placeholder="Correo electronico" required>
-                    <input class="form-control" type="password" id="contrasena_registro" name="contrasena_registro"
+                    <input id="myPassword" class="form-control" type="password" id="contrasena_registro" name="contrasena_registro"
                            placeholder="Contraseña" required>
                     <input class="form-control" type="password" id="contrasena_registro2" name="contrasena_registro2"
                            placeholder="Repite Contraseña" required>
@@ -160,6 +154,9 @@
 <span class="text-danger"><?php echo @$msg ?></span>
 
 <?php include 'pie.php'; ?>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/strength.js"></script>
+<script type="text/javascript" src="assets/js/costrasena.js"></script>
 </body>
 
 </html>

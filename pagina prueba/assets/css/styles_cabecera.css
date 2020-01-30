@@ -14,3 +14,14 @@ header {
   margin-left: 10px;
 }
 
+#logo {
+    height: 100px;
+    width: 120px;
+    margin-bot:20px;
+    padding: 0px;
+    
+}
+
+.div_logo{
+    paddig:0px;
+}

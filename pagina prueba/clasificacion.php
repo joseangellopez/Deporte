@@ -6,19 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>clasificacion</title>
 
-    <!-- Cabecera y pie-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
-    <link rel="stylesheet" href="assets/css/styles_cabecera.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
-
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles_clasificacion.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <?php include "links.php";
+    links("clasificacion");
+    ?>
 
 </head>
 
@@ -41,6 +31,10 @@ function calcular_puntos($db, $idequipo)
     $goles_favor = 0;
     $goles_contra = 0;
     $puntos = 0;
+    $jugados = 0;
+    $ganados = 0;
+    $empates = 0;
+    $perdidos = 0;
     $partidos = "";
     $consulta_puntos = "SELECT local_cal, visitante_cal, goleslocal_cal, golesvisitante_cal, idtemporada_cal from calendario where idtemporada_cal = 1 and local_cal = " . $idequipo . " or visitante_cal = " . $idequipo;
     foreach ($db->query($consulta_puntos) as $fila) {
@@ -49,14 +43,18 @@ function calcular_puntos($db, $idequipo)
         if ($fila['goleslocal_cal'] !== null) {
             $goleslocal_cal = $fila['goleslocal_cal'];
             $golesvisitante_cal = $fila['golesvisitante_cal'];
+            $jugados += 1;
+
         }
 
         if ($local_cal == $idequipo) {
             $goles_favor += $goleslocal_cal;
             $goles_contra += $golesvisitante_cal;
+
         } else {
             $goles_favor += $golesvisitante_cal;
             $goles_contra += $goleslocal_cal;
+
         }
 
         if ($local_cal == $idequipo && $goleslocal_cal > $golesvisitante_cal || $visitante_cal == $idequipo && $golesvisitante_cal > $goleslocal_cal) {
@@ -64,9 +62,11 @@ function calcular_puntos($db, $idequipo)
             if ($contador < 5) {
                 $partidos .= "<i style=\"font-size:24px\" class=\"fa\">&#xf058;</i>";
                 $contador += 1;
+                $ganados += 1;
             }
         } else if ($goleslocal_cal == $golesvisitante_cal) {
             $puntos += 1;
+            $empates += 1;
             if ($contador < 5) {
                 $partidos .= "<i style=\"font-size:24px\" class=\"fa\">&#xf056;</i>";
                 $contador += 1;
@@ -75,10 +75,17 @@ function calcular_puntos($db, $idequipo)
             if ($contador < 5) {
                 $partidos .= "<i style=\"font-size:24px\" class=\"fa\">&#xf00d;</i>";
                 $contador += 1;
+                $perdidos += 1;
             }
         }
+
     }
-    return "<td>$puntos</td><td>" . @$goles_favor . "</td><td>" . @$goles_contra . "</td><td>" . (int)(@$goles_favor - @$goles_contra) . "</td><td>" . $partidos . "</td>";
+    if ($jugados == 0){
+        return "<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>";
+
+    }
+        return "<td>$puntos</td><td>$jugados</td><td>$ganados</td><td>$empates</td><td>$perdidos</td><td>" . @$goles_favor . "</td><td>" . @$goles_contra . "</td><td>" . (int)(@$goles_favor - @$goles_contra) . "</td><td>" . $partidos . "</td>";
+
 }
 
 
@@ -90,8 +97,12 @@ function calcular_puntos($db, $idequipo)
             <th>Posición</th>
             <th>Equipo</th>
             <th>Puntos</th>
-            <th>Goles a favor</th>
-            <th>Goles en contra</th>
+            <th>Jugados</th>
+            <th>Ganados</th>
+            <th>Empatados</th>
+            <th>Perdidos</th>
+            <th>GF</th>
+            <th>GC</th>
             <th>Diferencia de goles</th>
             <th>Ultimos 5 partidos</th>
         </tr>

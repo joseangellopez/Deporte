@@ -6,18 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>estadistica</title>
 
-    <!-- Cabecera y pie-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
-    <link rel="stylesheet" href="assets/css/styles_cabecera.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
-
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles_estadisticas.css">
+    <?php include 'links.php';
+    links("estadisticas");
+    ?>
 
 
 </head>
@@ -108,7 +99,7 @@ function listar($db, $tipo)
             </tr>
             </thead>
             <tbody>
-            <?php  echo listar($db, 1); ?>
+            <?php  echo listar($db, 9); ?>
             </tbody>
 
 

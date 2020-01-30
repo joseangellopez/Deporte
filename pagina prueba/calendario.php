@@ -5,20 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Calendario</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles_calendario.css">
-     <!-- Cabecera y pie-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
-    <link rel="stylesheet" href="assets/css/styles_cabecera.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
-    <link rel="stylesheet" href="assets/css/Header-Blue.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button_cabecera.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <?php include 'conexionproyecto.php';
-    $consulta="SELECT jornada_cal, fecha_cal,local_cal,goleslocal_cal,visitante_cal,golesvisitante_cal,idestadio_cal FROM calendario order by jornada_cal";
+    <?php include 'links.php';
+    session_start();
+    links("calendario");
+    include 'conexionproyecto.php';
+    $consulta_calendario="SELECT jornada_cal, fecha_cal,local_cal,goleslocal_cal,visitante_cal,golesvisitante_cal,idestadio_cal FROM calendario order by jornada_cal";
 
     ?>
 
@@ -43,8 +34,6 @@
                 </tr>
             </thead>
             <tbody>
-
-
             <?php
 
             function localVisitante_estadio($db , $equipo_estadio,$equipooestadio){
@@ -64,30 +53,40 @@
                 }
                 return $localVisitante_estadio;
             }
-            foreach ($db->query($consulta) as $fila) {
-                $Jornada = $fila['jornada_cal'];
-                $Fecha = $fila['fecha_cal'];
-                $Fechaespañola = date("d/m/Y", strtotime($Fecha));
-                $Local = $fila['local_cal'];
-                $GolesL = $fila['goleslocal_cal'];
-                $GolesV = $fila['golesvisitante_cal'];
-                $Visitante = $fila['visitante_cal'];
-                $Estadio = $fila['idestadio_cal'];
-                $consultaLocal = localVisitante_estadio($db, $Local,2);
-                $consultaVistante = localVisitante_estadio($db,$Visitante,2);
-                $consultaEstadio = localVisitante_estadio($db,$Estadio,1);
-                ?>
-                <tr><td><?php echo ($Jornada); ?></td>
-                    <td><?php echo ($Fechaespañola); ?></td>
-                    <td><?php echo ($consultaLocal); ?></td>
-                    <td><?php echo ($GolesL); ?></td>
-                    <td><?php echo ("<i class=\"fa fa-handshake-o\"></i>"); ?></td>
-                    <td><?php echo ($GolesV); ?></td>
-                    <td><?php echo ($consultaVistante); ?></td>
-                    <td><?php echo ($consultaEstadio); ?></td>
+            function consultarDeporte($db, $id_equipo){
+                $consulta_equipo = "select deporte_iddeporte from equipo where idequipo = ". $id_equipo;
+                foreach($db->query($consulta_equipo) as $fila){
+                    $deporte = $fila['deporte_iddeporte'];
+                }
+                return $deporte;
+            }
+            foreach ($db->query($consulta_calendario) as $fila) {
+                if (consultarDeporte($db, $fila{'local_cal'}) == $_SESSION['deporte'] && consultarDeporte($db, $fila{'visitante_cal'}) == $_SESSION['deporte']){
+                    $Jornada = $fila['jornada_cal'];
+                    $Fecha = $fila['fecha_cal'];
+                    $Fechaespañola = date("d/m/Y", strtotime($Fecha));
+                    $Local = $fila['local_cal'];
+                    $GolesL = $fila['goleslocal_cal'];
+                    $GolesV = $fila['golesvisitante_cal'];
+                    $Visitante = $fila['visitante_cal'];
+                    $Estadio = $fila['idestadio_cal'];
+                    $consultaLocal = localVisitante_estadio($db, $Local, 2);
+                    $consultaVistante = localVisitante_estadio($db, $Visitante, 2);
+                    $consultaEstadio = localVisitante_estadio($db, $Estadio, 1);
+                    ?>
+                    <tr>
+                        <td><?php echo($Jornada); ?></td>
+                        <td><?php echo($Fechaespañola); ?></td>
+                        <td><?php echo($consultaLocal); ?></td>
+                        <td><?php echo($GolesL); ?></td>
+                        <td><?php echo("<i class=\"fa fa-handshake-o\"></i>"); ?></td>
+                        <td><?php echo($GolesV); ?></td>
+                        <td><?php echo($consultaVistante); ?></td>
+                        <td><?php echo($consultaEstadio); ?></td>
 
-                </tr>
-                <?php
+                    </tr>
+                    <?php
+                }
             }
             ?>
             </tbody>
