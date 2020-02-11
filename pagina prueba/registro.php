@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>registro</title>
-    <?php include 'links.php';
-    links("resgistro");
-    ?>
-
-</head>
-    <?php include 'cabecera.php'; ?>
-
-    <?php
+ <?php
     include 'conexionusuarios.php';
     $msg = "";
     if (isset($_POST['enviar_registro'])) {
@@ -96,9 +82,8 @@
     }
 
     ?>
-</head>
 
-<body>
+
 
 
 <form method="post" name="registro">
@@ -153,10 +138,10 @@
 
 <span class="text-danger"><?php echo @$msg ?></span>
 
-<?php include 'pie.php'; ?>
+
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/strength.js"></script>
 <script type="text/javascript" src="assets/js/costrasena.js"></script>
-</body>
 
-</html>
+
+

@@ -12,7 +12,7 @@ tratamiento de sus datos personales.</p>
                     <div class="col-sm col-md item">
                         <h3>Patrocinadores</h3>
                         <p><a href="https://amsystem.es/">AM System</a></p>
-                        <p><a href="https://www.iesvirgendelcarmen.com/ies/index.php">I.E.S Sierra las Villas</a></p>
+                        <p><a href="https://www.iesvirgendelcarmen.com/ies/index.php">I.E.S Virgen del Carmen</a></p>
                     </div>
                     <div class="col-sm col-md item">
                         <h3>Privacidad</h3>
