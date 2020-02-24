@@ -13,6 +13,7 @@ function links($archivo){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <script src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/jquery.tablesorter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="assets/js/seleccion_deporte.js"></script>';
@@ -35,6 +36,9 @@ function links($archivo){
             break;
         case "registro":
             $links.= '<link rel="stylesheet" href="assets/css/styles_registro.css">';
+            break;
+        case "index":
+            $links .= '<link rel="stylesheet" href="assets/css/styles_index.css">';
             break;
     }
     echo $links;

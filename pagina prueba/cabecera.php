@@ -1,7 +1,12 @@
 <?php
 
-    include 'conexionusuarios.php';
-    $menu = "";
+include 'conexionusuarios.php';
+$menu = "";
+//Si no tiene la seseion iniciada solo escribe los botones de login y regitro
+if (!isset($_SESSION["conectado"])) {
+    $login_logout = '<li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModallogin">Login</button></li>
+                    <li> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalregistro">Registro</button></li>';
+} else {
     if (!isset($_SESSION['sess_user_id'])) {
         $login_logout = '<li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModallogin">Login</button></li>
                     <li> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalregistro">Registro</button></li>';
@@ -10,13 +15,15 @@
             <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\" onclick=\"seleccionar_deporte(3)\">BALONCESTO</a></li>
             <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\" onclick=\"seleccionar_deporte(4)\">BALONMANO</a></li>";
     } else {
-        $login_logout = '<li><a href="logout.php"> <button type="button" class="btn btn-primary">Logout</button></a></li>';
+        //Cuando el usuario inicia session cambia los botones de login y registro por logout
+        $login_logout = '<li>' . $_SESSION['sess_user_name'] . '&nbsp &nbsp <a href="logout.php"> <button type="button" class="btn btn-primary">Logout</button></a></li>';
         $consulta_menu1 = "select * from deportes_sel where id_usuario_dep = " . $_SESSION['sess_user_id'];
         foreach ($db2->query($consulta_menu1) as $fila) {
             $futbol = $fila['futbol_dep'];
             $baloncesto = $fila['baloncesto_dep'];
             $futbol_sala = $fila['futbol_dep'];
             $balonmano = $fila['balonmano_dep'];
+//Segun lo que  tenga marcado el usuarios al registro de los deportes que quiere se muestra los que ha elegido
 
         }
         if ($futbol == 1) {
@@ -34,7 +41,7 @@
         }
     }
 
-
+}
 
 ?>
 <div>
@@ -54,6 +61,12 @@
         <ul class="nav nav-tabs" id="menu1">
             <?php echo $menu ?>
         </ul>
+        <?php
+        if (!isset($_SESSION["conectado"])) {
+            // si el usuario no esta conectado no se muetra los botones de equips ,calendarios, etc
+            //Cuando inicia sesion si se muestras
+        } else { ?>
+
         <ul class="nav nav-tabs" id="menu2">
             <li class="nav-item"><a class="nav-link" href="equipos.php">Equipos</a></li>
             <li class="nav-item"><a class="nav-link" href="calendario.php">Calendario</a></li>
@@ -61,10 +74,11 @@
             <li class="nav-item"><a class="nav-link" href="clasificacion.php">Clasificación</a></li>
             <li class="nav-item"><a class="nav-link" href="jugadores.php">Jugadores</a></li>
         </ul>
+        <?php } ?>
     </div>
 </div>
 
-
+<!-- Ventana modal de login y registro -->
 <div class="modal" id="myModallogin" data-backdrop="static">
 
     <div class="modal-dialog modal-lg">
@@ -112,4 +126,3 @@
         </div>
     </div>
 </div>
-
